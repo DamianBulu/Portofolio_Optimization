@@ -1,0 +1,6 @@
+# Comanda pentru instalarea pachetelor:
+# pip install -r requirements.txt
+yfinance
+pandas
+numpy
+matplotlib
