@@ -21,11 +21,14 @@ RISK_FREE_RATE=0.02 #constanta din formula /Sharpe Ration
 
 
 # Definim căile către fișierele noastre locale
-DATA_DIR='data'
-TRAIN_FILE=f'{DATA_DIR}/train_returns.csv'
-TEST_FILE=f'{DATA_DIR}/test_returns.csv'
-MU_FILE=f'{DATA_DIR}/mu_train.csv'
-SIGMA_FILE=f'{DATA_DIR}/sigma_train.csv'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+
+TRAIN_FILE = os.path.join(DATA_DIR, 'train_returns.csv')
+TEST_FILE = os.path.join(DATA_DIR, 'test_returns.csv')
+MU_FILE = os.path.join(DATA_DIR, 'mu_train.csv')
+SIGMA_FILE = os.path.join(DATA_DIR, 'sigma_train.csv')
 
 
 
@@ -112,6 +115,64 @@ def validate_and_normalize_weights(weights):
         return weights/total_weight
     else:
         return np.ones(len(weights))/len(weights)
+
+
+def calculate_markowitz_benchmark(mu,sigma,risk_free_rate=RISK_FREE_RATE):
+    import scipy.optimize as scipy_optimize
+
+
+    """
+        Calculates the matematically optimal portofolio using Modern Portofolio Theory(Harry Markowitz)
+        This function applies the SLSQP(Sequential Least Squares Programming) optimization algorithm
+        to find the exact asset weights that maximize the Sharpe Ratio
+        The result serves as benchmark for evaluating heuristic algorithms such as Hybrid Genetic Algorithm(HGA), PSO, and SCA-BAS
+        
+        Parameters:
+            mu: vector of expected annual returns for each stock 
+            sigma: covariance matrix representing asset risk and correlations
+            risk_free_rate: risk_free interest rate
+        Retuns:
+            best_weights=optimal portofolio weights(percentages) for each stock
+            best_sharpe_ratio: maximum theoretical Sharpe Ratio achievable with the given data
+    """
+    numar_de_actiuni=len(mu)
+
+    #Functia pe care optimizatorul matematic trebuie sa o minimizeze
+    #Scipy stie doar sa minimizeze functii,iar noi vrem sa maximizam Sharpe Ration => vom returna Sharpe Ration inmultita cu -1
+    #Maximizarea lui X este echivalenta cu minimizarea lui -X
+    def negative_sharp_ratio(weights):
+        sharpe_curent=calculate_sharpe_ratio(weights,mu,sigma,risk_free_rate)
+        return -1*sharpe_curent
+
+    #Definirea constrangerilor problemei
+    constrangeri=({
+        'type':'eq',
+        'fun':lambda ponderi: np.sum(ponderi)-1.0 #vrem ca suma ponderilor sa fie 1
+    })
+
+    #Definirea limitelor pt ponderi
+    limite_ponderi=tuple((0.0,1.0) for _ in range(numar_de_actiuni))
+
+    #Punct de pornire: pornim de la un portofolio distribuit perfect(4% pt fiecare din cele 25 de actiuni)
+    ponderi_initiale=np.array(numar_de_actiuni*[1.0/numar_de_actiuni])
+
+    #Apelam algoritm de optimizare matematica din SciPy
+    rezultat_optimizare=scipy_optimize.minimize(
+        fun=negative_sharp_ratio,
+        x0=ponderi_initiale,
+        method='SLSQP',
+        bounds=limite_ponderi,
+        constraints=constrangeri
+    )
+
+
+    ponderi_optime=rezultat_optimizare['x']
+
+    #Calculam Sharpe Ration reala pt aceste ponderi
+    maxim_sharpe_ratio=calculate_sharpe_ratio(ponderi_optime,mu,sigma,risk_free_rate)
+
+    return ponderi_optime,maxim_sharpe_ratio
+
 
 #Rulare script
 if __name__=='__main__':
