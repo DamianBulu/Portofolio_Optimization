@@ -1,18 +1,13 @@
-
-
 import numpy as np
 import pandas as pd
 import random
 import matplotlib.pyplot as plt
-
 import sys
 import os
-
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from utils import get_processed_data,calculate_sharpe_ratio,validate_and_normalize_weights
-
 
 class MemeticAlgorithm:
     def __init__(self,mu,sigma,population_size=50,generations=150,crossover_rate=0.8,mutation_rate=0.1,mutation_std=0.05,hc_probability=0.3,hc_iterations=10):
@@ -109,10 +104,7 @@ class MemeticAlgorithm:
     def run_memetic_algorithm(self,verbose=False):
         """
             Bucla principala pt algoritmul MEmetic (HGA -Hybrid Genetic Algoritm)
-
-
         """
-
 
         population=self.init_population()
 
@@ -171,8 +163,3 @@ class MemeticAlgorithm:
                 print(f"Generația {generation + 1}/{self.generations} | Best Sharpe Ratio: {global_best_fitness:.4f}")
 
         return global_best_individual,global_best_fitness,best_fitness_history
-
-
-
-
-

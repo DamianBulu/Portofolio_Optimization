@@ -1,0 +1,5 @@
+Experiment Name,Algorithm Settings,Sharpe Ratio performance in Train,Sharpe Ratio performance in Test,Evolution of performance(Test vs Train)
+Benchmark Markowitz,Mathematical Optimization,1.8847,1.4583,-0.4264
+PSO Fast,Pop:20 Iter:50 w:0.7 c1:1.2,1.8847,1.4583,-0.4264
+PSO Standard,Pop:40 Iter:100 w:0.7298 c1:1.4962,1.778,1.4218,-0.3562
+PSO Aggressive,Pop:70 Iter:200 w:0.8 c1:2.0,1.8847,1.4583,-0.4264
