@@ -1,0 +1,16 @@
+# --- Python & Medii Virtuale ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# --- IDE-uri și Editoare de text ---
+.idea/
+.vscode/
+*.swp
+
+# --- Sistem de operare ---
+.DS_Store
+Thumbs.db
