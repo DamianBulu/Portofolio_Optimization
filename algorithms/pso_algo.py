@@ -120,19 +120,3 @@ class PSOAlgorithm:
                 print(f"Iteration {iteration + 1}/{self.iterations} | Global Best Sharpe: {g_best_score:.4f}")
 
         return g_best_position, g_best_score, history
-
-# Example usage for testing the script standalone
-if __name__ == "__main__":
-    # Mock data for standalone test
-    n_assets = 10
-    mu = np.random.uniform(0.01, 0.05, n_assets)
-    # Generate a positive semi-definite covariance matrix
-    matrix = np.random.randn(n_assets, n_assets)
-    sigma = np.dot(matrix, matrix.T)
-    
-    pso = PSOAlgorithm(mu, sigma, population_size=30, iterations=100)
-    best_weights, best_score, hist = pso.run_pso(verbose=True)
-    
-    print(f"\nFinal Results:")
-    print(f"Best Sharpe Ratio: {best_score:.4f}")
-    print(f"Weights Sum: {np.sum(best_weights):.2f}")
