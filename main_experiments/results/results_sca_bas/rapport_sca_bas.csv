@@ -1,0 +1,5 @@
+Experiment Name,Algorithm Settings,Sharpe Ratio performance in Train,Sharpe Ratio performance in Test,Evolution of performance(Test vs Train)
+Benchmark Markowitz,Mathematical Optimization,1.8847,1.4583,-0.4264
+SCA-BAS Fast,Agents:15   Iter:60   Sensing:0.15   Step:0.15,1.7619,1.4426,-0.3193
+SCA-BAS Standard,Agents:25   Iter:100   Sensing:0.1   Step:0.1,1.839,1.431,-0.4081
+SCA-BAS Aggressive,Agents:40   Iter:150   Sensing:0.2   Step:0.2,1.8782,1.4507,-0.4276
