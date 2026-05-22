@@ -1,3 +1,5 @@
+import time
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -54,6 +56,7 @@ def run_sca_bas_experiments():
     for exp in experiments:
         print(f"Running {exp['name']}...")
 
+        start = time.perf_counter()
         best_weights, history = bassca_portfolio_optimization(
             get_fitness=get_fitness_train,
             n_stocks=len(mu_train),
@@ -63,6 +66,8 @@ def run_sca_bas_experiments():
             step_size=exp['step_size'],
             early_stopping=False
         )
+        end = time.perf_counter()
+        print(f"{end - start}s")
 
         best_weights = validate_and_normalize_weights(best_weights)
 
@@ -79,7 +84,8 @@ def run_sca_bas_experiments():
             "Algorithm Settings": f"Agents:{exp['n_agents']}   Iter:{exp['max_iter']}   Sensing:{exp['sensing_distance']}   Step:{exp['step_size']}",
             "Sharpe Ratio performance in Train": round(train_sharpe, 4),
             "Sharpe Ratio performance in Test": round(test_sharpe, 4),
-            "Evolution of performance(Test vs Train)": f"{round(test_sharpe - train_sharpe, 4)}"
+            "Evolution of performance(Test vs Train)": f"{round(test_sharpe - train_sharpe, 4)}",
+            "Runtime": f"{end - start}s"
         })
 
         print(f"Sharpe Ratio on train dataset: {train_sharpe:.4f}    Sharpe Ratio on test dataset: {test_sharpe:.4f}")

@@ -1,4 +1,4 @@
-
+import time
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -61,8 +61,10 @@ def run_hga_experiments():
             hc_probability=exp['hc_prob'],
             hc_iterations=exp['hc_iter']
         )
-
+        start = time.perf_counter()
         best_weights,train_sharpe,history=algo.run_memetic_algorithm(verbose=False)
+        end = time.perf_counter()
+        print(f"Time: {end-start}s")
         test_sharpe=calculate_sharpe_ratio(best_weights,mu_test,sigma_test)
 
         #Salvare date
@@ -76,8 +78,8 @@ def run_hga_experiments():
             'Algorithm Settings':f"Population:{exp['pop']}   Generations:{exp['gen']}   HC_Probability:{exp['hc_prob']}",
             'Sharpe Ratio performance in Train':round(train_sharpe,4),
             "Sharpe Ratio performance in Test":round(test_sharpe,4),
-            'Evolutia performantei(Test vs Train)':f'{round(test_sharpe-train_sharpe,4)}'
-
+            'Evolutia performantei(Test vs Train)':f'{round(test_sharpe-train_sharpe,4)}',
+            "Runtime": f"{end-start}s"
         })
         print(f"Sharpe Ratio on train dataset: {train_sharpe:.4f}    Sharpe Ration on test dataset: {test_sharpe:.4f}")
 

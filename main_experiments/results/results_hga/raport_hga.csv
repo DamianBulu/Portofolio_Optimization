@@ -1,5 +1,5 @@
-Experiment Name,Algorithm Settings,Sharpe Ratio performance in Train,Sharpe Ratio performance in Test,Evolutia performantei(Test vs Train)
-Benchmark Markowitz,Mathematical Optimization,1.8847,1.4583,-0.4264
-HGA Standard,Population:50   Generations:100   HC_Probability:0.3,1.8013,1.4575,-0.3439
-HGA Rapid,Population:30   Generations:50   HC_Probability:0.2,1.6696,1.4074,-0.2622
-HGA Agresiv,Population:60   Generations:150   HC_Probability:0.5,1.8642,1.4589,-0.4053
+Experiment Name,Algorithm Settings,Sharpe Ratio performance in Train,Sharpe Ratio performance in Test,Evolutia performantei(Test vs Train),Runtime
+Benchmark Markowitz,Mathematical Optimization,1.8847,1.4583,-0.4264,
+HGA Standard,Population:50   Generations:100   HC_Probability:0.3,1.806,1.5031,-0.303,0.11395804095081985s
+HGA Rapid,Population:30   Generations:50   HC_Probability:0.2,1.719,1.4174,-0.3016,0.0260998330777511s
+HGA Agresiv,Population:60   Generations:150   HC_Probability:0.5,1.8385,1.4372,-0.4013,0.28479079192038625s

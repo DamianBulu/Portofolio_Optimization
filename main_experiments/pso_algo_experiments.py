@@ -1,3 +1,4 @@
+import time
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -68,7 +69,10 @@ def run_pso_experiments():
         )
 
         # Execute Algorithm
+        start = time.perf_counter()
         best_weights, train_sharpe, history = algo.run_pso(verbose=False)
+        end = time.perf_counter()
+        print(f"{end-start}s")
         
         # Out-of-sample performance
         test_sharpe = calculate_sharpe_ratio(best_weights, mu_test, sigma_test)
@@ -84,7 +88,8 @@ def run_pso_experiments():
             "Algorithm Settings": f"Pop:{exp['pop']} Iter:{exp['iter']} w:{exp['w']} c1:{exp['c1']}",
             "Sharpe Ratio performance in Train": round(train_sharpe, 4),
             "Sharpe Ratio performance in Test": round(test_sharpe, 4),
-            "Evolution of performance(Test vs Train)": f"{round(test_sharpe - train_sharpe, 4)}"
+            "Evolution of performance(Test vs Train)": f"{round(test_sharpe - train_sharpe, 4)}",
+            "Runtime": f"{end-start}s"
         })
 
         print(f"   Done. Train Sharpe: {train_sharpe:.4f} | Test Sharpe: {test_sharpe:.4f}")
